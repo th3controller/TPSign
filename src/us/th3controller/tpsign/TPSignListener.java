@@ -61,12 +61,13 @@ public class TPSignListener implements Listener {
 	@EventHandler
 	public void PlayerSignChange(SignChangeEvent event) {
 		if(event.getLine(0).equalsIgnoreCase("[ tpsign ]") || event.getLine(0).equalsIgnoreCase("[tpsign]")) {
-			if(plugin.coords.containsKey(event.getPlayer().getName()+"-x")) {
-				String x = Integer.toString(plugin.coords.get(event.getPlayer().getName()+"-x"));
-				String y = Integer.toString(plugin.coords.get(event.getPlayer().getName()+"-y"));
-				String z = Integer.toString(plugin.coords.get(event.getPlayer().getName()+"-z"));
-				Integer yaw = plugin.coords.get(event.getPlayer().getName()+"-yaw");
-				Integer pitch = plugin.coords.get(event.getPlayer().getName()+"-pitch");
+			String name = event.getPlayer().getName();
+			if(plugin.coords.containsKey(name+"-x")) {
+				String x = Integer.toString(plugin.coords.get(name+"-x"));
+				String y = Integer.toString(plugin.coords.get(name+"-y"));
+				String z = Integer.toString(plugin.coords.get(name+"-z"));
+				Integer yaw = plugin.coords.get(name+"-yaw");
+				Integer pitch = plugin.coords.get(name+"-pitch");
 				event.setLine(0, "[ TPSign ]");
 				event.setLine(1, x);
 				event.setLine(2, z);
