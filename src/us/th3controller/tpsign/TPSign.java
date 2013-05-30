@@ -24,6 +24,6 @@ public class TPSign extends JavaPlugin {
 		pdfile = getDescription();
 		getCommand("tpsign").setExecutor(new CmdTPSign(this));
 		log.info("[TPSign] Successfully initiated the plugin!");
-		log.info("[TPSign] Running version"+pdfile.getVersion());
+		log.info("[TPSign] Running version "+pdfile.getVersion());
 	}
 }
