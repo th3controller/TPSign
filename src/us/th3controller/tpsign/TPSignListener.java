@@ -7,12 +7,12 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 public class TPSignListener implements Listener {
 	
@@ -33,6 +33,7 @@ public class TPSignListener implements Listener {
 				BlockState stateBlock = getSignBelow.getState();
 				Sign sign = (Sign)stateBlock;
 				if(sign.getLine(0).equalsIgnoreCase("[ tpsign ]")) {
+					final Player player = event.getPlayer();
 					//Get the details on the sign.
 					String yYP = sign.getLine(3);
 					String[] data = yYP.split(":");
@@ -42,12 +43,17 @@ public class TPSignListener implements Listener {
 					Float yaw = Float.parseFloat(data[1]);
 					Float pitch = Float.parseFloat(data[2]);
 					//Define the block on the coordinates.
-					Location blockoncoords = new Location(event.getPlayer().getWorld(), xCord, yCord, zCord, yaw, pitch);
+					final Location blockoncoords = new Location(player.getWorld(), xCord, yCord, zCord, yaw, pitch);
 					//Load the chunk for better teleport.
-					Bukkit.getWorld(event.getPlayer().getWorld().getName()).getBlockAt(blockoncoords).getChunk().load();
+					Bukkit.getWorld(player.getWorld().getName()).getBlockAt(blockoncoords).getChunk().load();
 					//Teleport the player with a cause.
-					event.getPlayer().teleport(blockoncoords, TeleportCause.PLUGIN);
-					event.getPlayer().sendMessage(ChatColor.GREEN+"Successfully teleported");
+					plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, new Runnable() {
+						@Override
+						public void run() {
+							player.teleport(blockoncoords);
+						}
+					}, 2L);
+					player.sendMessage(ChatColor.GREEN+"Successfully teleported");
 				}
 			}
 		}
