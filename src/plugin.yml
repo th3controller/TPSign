@@ -1,5 +1,5 @@
 name: TPSign
-version: 1.0.0
+version: 1.0.1
 main: us.th3controller.tpsign.TPSign
 commands:
    tpsign:

@@ -23,11 +23,12 @@ public class CmdTPSign implements CommandExecutor {
 					Player player = (Player) sender;
 					if(player.hasPermission("tpsign.create")) {
 						Location loc = player.getLocation();
-						plugin.coords.put(player.getName()+"-x", loc.getBlockX());
-						plugin.coords.put(player.getName()+"-y", loc.getBlockY());
-						plugin.coords.put(player.getName()+"-z", loc.getBlockZ());
-						plugin.coords.put(player.getName()+"-yaw", (int) Math.floor(loc.getYaw()));
-						plugin.coords.put(player.getName()+"-pitch", (int) Math.floor(loc.getPitch()));
+						String name = player.getName();
+						plugin.coords.put(name+"-x", loc.getBlockX());
+						plugin.coords.put(name+"-y", loc.getBlockY());
+						plugin.coords.put(name+"-z", loc.getBlockZ());
+						plugin.coords.put(name+"-yaw", (int) Math.floor(loc.getYaw()));
+						plugin.coords.put(name+"-pitch", (int) Math.floor(loc.getPitch()));
 						player.sendMessage(ChatColor.GREEN+"Successfully registered coordinates!");
 						player.sendMessage(ChatColor.GREEN+"Place a sign and write on the first line "+ChatColor.RED+"[ tpsign ]");
 					} else {
