@@ -29,6 +29,7 @@ public class CmdTPSign implements CommandExecutor {
 						plugin.coords.put(name+"-z", loc.getBlockZ());
 						plugin.coords.put(name+"-yaw", (int) Math.floor(loc.getYaw()));
 						plugin.coords.put(name+"-pitch", (int) Math.floor(loc.getPitch()));
+						plugin.world.put(name+"-world", player.getWorld().getName());
 						player.sendMessage(ChatColor.GREEN+"Successfully registered coordinates!");
 						player.sendMessage(ChatColor.GREEN+"Place a sign and write on the first line "+ChatColor.RED+"[ tpsign ]");
 					} else {

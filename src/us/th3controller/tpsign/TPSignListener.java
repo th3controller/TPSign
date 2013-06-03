@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
@@ -34,16 +35,20 @@ public class TPSignListener implements Listener {
 				Sign sign = (Sign)stateBlock;
 				if(sign.getLine(0).equalsIgnoreCase("[ tpsign ]")) {
 					final Player player = event.getPlayer();
-					//Get the details on the sign.
+					//Split the data to resemble coordinates.
 					String yYP = sign.getLine(3);
-					String[] data = yYP.split(":");
-					int xCord = Integer.parseInt(sign.getLine(1));
-					int zCord = Integer.parseInt(sign.getLine(2));
-					Integer yCord = Integer.parseInt(data[0]);
-					Float yaw = Float.parseFloat(data[1]);
-					Float pitch = Float.parseFloat(data[2]);
+					String[] yYPdata = yYP.split(":");
+					String xy = sign.getLine(2);
+					String[] xydata = xy.split(":");
+					//Raw Coordinates
+					World world = Bukkit.getServer().getWorld(sign.getLine(1));
+					int xCord = Integer.parseInt(xydata[0]);
+					int zCord = Integer.parseInt(xydata[1]);
+					Integer yCord = Integer.parseInt(yYPdata[0]);
+					Float yaw = Float.parseFloat(yYPdata[1]);
+					Float pitch = Float.parseFloat(yYPdata[2]);
 					//Define the block on the coordinates.
-					final Location blockoncoords = new Location(player.getWorld(), xCord, yCord, zCord, yaw, pitch);
+					final Location blockoncoords = new Location(world, xCord, yCord, zCord, yaw, pitch);
 					//Load the chunk for better teleport.
 					Bukkit.getWorld(player.getWorld().getName()).getBlockAt(blockoncoords).getChunk().load();
 					//Teleport the player with a cause.
@@ -66,11 +71,12 @@ public class TPSignListener implements Listener {
 				String x = Integer.toString(plugin.coords.get(name+"-x"));
 				String y = Integer.toString(plugin.coords.get(name+"-y"));
 				String z = Integer.toString(plugin.coords.get(name+"-z"));
+				String world = plugin.world.get(event.getPlayer().getName()+"-world");
 				Integer yaw = plugin.coords.get(name+"-yaw");
 				Integer pitch = plugin.coords.get(name+"-pitch");
 				event.setLine(0, "[ TPSign ]");
-				event.setLine(1, x);
-				event.setLine(2, z);
+				event.setLine(1, world);
+				event.setLine(2, x+":"+z);
 				event.setLine(3, y+":"+yaw+":"+pitch);
 			} else {
 				event.getBlock().breakNaturally();

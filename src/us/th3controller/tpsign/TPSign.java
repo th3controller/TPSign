@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class TPSign extends JavaPlugin {
 	
 	public HashMap<String, Integer> coords = new HashMap<String, Integer>();
+	public HashMap<String, String> world = new HashMap<String, String>();
 	Logger log = Logger.getLogger("Minecraft");
 	
 	PluginDescriptionFile pdfile;
