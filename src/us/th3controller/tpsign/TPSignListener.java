@@ -34,31 +34,37 @@ public class TPSignListener implements Listener {
 				BlockState stateBlock = getSignBelow.getState();
 				Sign sign = (Sign)stateBlock;
 				if(sign.getLine(0).equalsIgnoreCase("[ tpsign ]")) {
-					final Player player = event.getPlayer();
-					//Split the data to resemble coordinates.
-					String yYP = sign.getLine(3);
-					String[] yYPdata = yYP.split(":");
-					String xy = sign.getLine(2);
-					String[] xydata = xy.split(":");
-					//Raw Coordinates
-					World world = Bukkit.getServer().getWorld(sign.getLine(1));
-					int xCord = Integer.parseInt(xydata[0]);
-					int zCord = Integer.parseInt(xydata[1]);
-					Integer yCord = Integer.parseInt(yYPdata[0]);
-					Float yaw = Float.parseFloat(yYPdata[1]);
-					Float pitch = Float.parseFloat(yYPdata[2]);
-					//Define the block on the coordinates.
-					final Location blockoncoords = new Location(world, xCord, yCord, zCord, yaw, pitch);
-					//Load the chunk for better teleport.
-					Bukkit.getWorld(player.getWorld().getName()).getBlockAt(blockoncoords).getChunk().load();
-					//Teleport the player with a cause.
-					plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, new Runnable() {
-						@Override
-						public void run() {
-							player.teleport(blockoncoords);
-						}
-					}, 2L);
-					player.sendMessage(ChatColor.GREEN+"Successfully teleported");
+					try {
+						final Player player = event.getPlayer();
+						//Split the data to resemble coordinates.
+						String yYP = sign.getLine(3);
+						String[] yYPdata = yYP.split(":");
+						String xy = sign.getLine(2);
+						String[] xydata = xy.split(":");
+						//Raw Coordinates
+						World world = Bukkit.getServer().getWorld(sign.getLine(1));
+						int xCord = Integer.parseInt(xydata[0]);
+						int zCord = Integer.parseInt(xydata[1]);
+						Integer yCord = Integer.parseInt(yYPdata[0]);
+						Float yaw = Float.parseFloat(yYPdata[1]);
+						Float pitch = Float.parseFloat(yYPdata[2]);
+						//Define the block on the coordinates.
+						final Location blockoncoords = new Location(world, xCord, yCord, zCord, yaw, pitch);
+						//Load the chunk for better teleport.
+						Bukkit.getWorld(player.getWorld().getName()).getBlockAt(blockoncoords).getChunk().load();
+						//Teleport the player with a cause.
+						plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, new Runnable() {
+							@Override
+							public void run() {
+								player.teleport(blockoncoords);
+							}
+						}, 2L);
+						player.sendMessage(ChatColor.GREEN+"Successfully teleported");
+					} catch (ArrayIndexOutOfBoundsException e) {
+						getSignBelow.breakNaturally();
+					} catch (IndexOutOfBoundsException e) {
+						getSignBelow.breakNaturally();
+					}
 				}
 			}
 		}
