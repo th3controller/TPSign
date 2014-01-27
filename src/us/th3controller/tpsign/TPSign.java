@@ -1,5 +1,6 @@
 package us.th3controller.tpsign;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
@@ -21,6 +22,10 @@ public class TPSign extends JavaPlugin {
 	}
 	@Override
 	public void onEnable() {
+		File file = new File("plugins/TPSign", "config.yml");
+		if(!file.exists()) {
+			this.saveResource("config.yml", true);
+		}
 		getServer().getPluginManager().registerEvents(new TPSignListener(this), this);
 		pdfile = getDescription();
 		getCommand("tpsign").setExecutor(new CmdTPSign(this));

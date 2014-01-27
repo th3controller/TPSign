@@ -59,7 +59,7 @@ public class TPSignListener implements Listener {
 								player.teleport(blockoncoords);
 							}
 						}, 2L);
-						player.sendMessage(ChatColor.GREEN+"Successfully teleported");
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("teleport-message")));
 					} catch (ArrayIndexOutOfBoundsException e) {
 						getSignBelow.breakNaturally();
 					} catch (IndexOutOfBoundsException e) {
